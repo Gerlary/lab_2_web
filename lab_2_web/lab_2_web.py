@@ -19,11 +19,14 @@ def decorator(count):
             if cached_value is None:
                 res = func(*args, **kwargs)
                 cache[key] = {"count": count, "value": res}
+                counter = cache.get(key)["count"]
+                print("Осталось до обнуления: {}".format(counter))
                 return res
             else:
                 counter = cached_value["count"]
                 value = cached_value["value"]
                 counter -= 1
+                print("Осталось до обнуления: {}".format(counter))
                 cache[key] = {"count": counter, "value": value}
                 if counter <=0:
                     cache.pop(key)
@@ -38,11 +41,10 @@ def func1():
     f = a[ceil(len(a)/2):]
     f.reverse()
     a = a[:len(a)//2]   
-    if f == x:
-        print("True")
-        return 
-    print("False")
-    
+    if f == a:
+        return True
+                                      
+    return False 
 
 @decorator(count = 2)
 def func2():
@@ -57,7 +59,7 @@ def func2():
             even += [i]
         if i%5 == 0:
             fifc += [i]
-    print("четные{}\nкратные 3-м{}\nкратные 5-ти{}".format(even,tric,fifc))
+    return "четные{}\nкратные 3-м{}\nкратные 5-ти{}".format(even,tric,fifc)
     
 @decorator(count = 2)
 def func3():
@@ -83,33 +85,37 @@ def func4():
         x0 = 1/n*((n-1)*x0+A/x0**(n-1))
     print (x0)
 @decorator(count = 2)
-def func5(x):
-    inp = int(input("Введите число: "))
+def func5():
+    x = int(input("Введите число: "))
     for i in range(2,x//2):
         if x%i ==0:
-            print("Не простое число")
-            return 
-    print("Простое число")
+            return "Не простое число"
+             
+    return "Простое число"
 
 
+while True:
+    f = int(input("Введите номер выводимой функции(1-5) или 0 для выхода из программы: "))
+    if f == 0: break
+    elif f == 1:
+    
+       print( func1())
+    elif f == 2:
+    
+        print(func2())
+    
+    elif f == 3:
+    
+        print(func3())
+    elif f == 4:
+        print(func4())
+    elif f == 5:
+    
+        print(func5())
 
-f = int(input("Введите номер выводимой функции"))
-if f == 0:
-    
-    func1()
-elif f == 1:
-    
-    func2()
-    
-elif f == 2:
-    
-    func3()
-elif f == 3:
-    func4()
-elif f == 4:
-    
-    func5()
-else:
-    print("ERROR")
+    else:
+        print("ERROR")
+        break
+print("Работа завершена")
 
 
